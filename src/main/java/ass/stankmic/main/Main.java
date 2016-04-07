@@ -35,7 +35,6 @@ public class Main {
     public static void main(String[] args) {
         // prepare default port and base directory values
         int port = DEFAULT_PORT;
-        File baseDir = DEFAULT_BASE_DIR;
 
         // parse arguments
         for (int i = 0; i < args.length; i++) {
@@ -59,37 +58,21 @@ public class Main {
                     }
                     break;
 
-                case BASE_DIR:
-                    try {
-                        File prev_dir = baseDir;
-                        baseDir = new File(args[i + 1]);
-                        i++;
-                        if (!prev_dir.equals(DEFAULT_BASE_DIR)) {
-                            System.out.printf("Multiple base directories specified. The last given will be used.\n");
-                        }
-                    } catch (IndexOutOfBoundsException ex) {
-                        System.err.printf("No directory specified after the switch.\n");
-                    }
-                    break;
-
                 default:
                     System.err.printf("Unknown argument: %s\n", args[i]);
                     break;
             }
         }
 
-        // fix the baseDir to canonical/abosolute path
-        baseDir = CanonicalFile.get(baseDir);
-
         // check arguments validity
-        final String err = checkArguments(port, baseDir);
+        final String err = checkPort(port);
         if (err != null) {
             System.err.print(err);
             return;
         }
         try {
             // start the main webserver thread
-            startMainWebserverThread(port, baseDir);
+            startMainWebserverThread(port);
             createShutDownHook();
         } catch (SocketException ex) {
             System.err.println(ex);
@@ -124,17 +107,11 @@ public class Main {
      * @return null if arguments are ok, error message otherwise - the webserver
      * shouldn't be started in that case
      */
-    private static String checkArguments(final int port, final File baseDir) {
+    private static String checkPort(final int port) {
         String err = "";
         // check port in range
         if (port < 1 || port > 65535) {
             err += "The given port " + port + " is not in range from 1 to 65535.\n";
-        }
-        // check baseDir
-        if (!baseDir.exists()) {
-            err += "The given directory " + baseDir.toPath() + " does not exist.\n";
-        } else if (!baseDir.isDirectory()) {
-            err += "The given path " + baseDir.toPath() + " is not a directory.\n";
         }
         // return error message
         if (!"".equals(err)) {
@@ -151,8 +128,8 @@ public class Main {
      * @param port port where the webserver should be started
      * @param baseDir base directory the webserver should use
      */
-    private static void startMainWebserverThread(final int port, final File baseDir) throws SocketException {
-        mainRunnable = new MainWebserverRunnable(port, baseDir);
+    private static void startMainWebserverThread(final int port) throws SocketException {
+        mainRunnable = new MainWebserverRunnable(port);
         mainThread = new Thread(mainRunnable);
         mainThread.start();
     }

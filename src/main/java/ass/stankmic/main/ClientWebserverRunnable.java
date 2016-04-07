@@ -1,18 +1,18 @@
 package ass.stankmic.main;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import ass.stankmic.server.requests.HTTPCode;
 import ass.stankmic.server.requests.Request;
 import ass.stankmic.server.requests.RequestHandler;
 import ass.stankmic.server.requests.RequestHandlerFactory;
 import ass.stankmic.server.requests.exceptions.BadHTTPRequestException;
 import ass.stankmic.server.requests.exceptions.NotImplementedHTTPMethodException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
 
 /**
  * Client runnable to handle one client HTTP request.
@@ -22,7 +22,6 @@ import java.net.Socket;
 public class ClientWebserverRunnable implements Runnable {
 
     private final Socket remoteSoc;
-    private final File baseDir;
     private final OutputStream outStream;
     private final PrintWriter outWriter;
 
@@ -33,9 +32,8 @@ public class ClientWebserverRunnable implements Runnable {
      * @param baseDir base directory the webserver uses
      * @throws java.io.IOException when opening the output stream failes
      */
-    protected ClientWebserverRunnable(final Socket remoteSoc, final File baseDir) throws IOException {
+    protected ClientWebserverRunnable(final Socket remoteSoc) throws IOException {
         this.remoteSoc = remoteSoc;
-        this.baseDir = baseDir;
         this.outStream = remoteSoc.getOutputStream();
         this.outWriter = new PrintWriter(outStream);
     }
@@ -52,7 +50,7 @@ public class ClientWebserverRunnable implements Runnable {
                 throw new BadHTTPRequestException();
             }
             final RequestHandler rh = RequestHandlerFactory.newInstance(request);
-            rh.serveTheRequest(request, baseDir, outStream, outWriter);
+            rh.serveTheRequest(request, outStream, outWriter);
         } catch (IOException ex) {
             HTTPCode.code500.sendResponse(outWriter);
         } catch (BadHTTPRequestException ex) {

@@ -1,13 +1,13 @@
 package ass.stankmic.main;
 
-import ass.stankmic.structures.WorkerPoolImpl;
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import ass.stankmic.structures.WorkerPoolImpl;
 
 /**
  * Main webserver runnable, which handles the routine of accepting and
@@ -17,7 +17,6 @@ import java.util.logging.Logger;
  */
 public class MainWebserverRunnable implements Runnable {
 
-    private final File baseDir;
     private final int port;
     private final ServerSocket serverSoc;
 
@@ -31,10 +30,7 @@ public class MainWebserverRunnable implements Runnable {
      * @throws SocketException in case of socket creation problem (e.g. port in
      * use)
      */
-    protected MainWebserverRunnable(final int port, final File baseDir) throws SocketException {
-        // check base directory
-        this.baseDir = baseDir;
-
+    protected MainWebserverRunnable(final int port) throws SocketException {
         // create socket on the given port
         this.port = port;
         try {
@@ -50,7 +46,6 @@ public class MainWebserverRunnable implements Runnable {
      */
     public void run() {
         System.out.printf("Webserver started on port %d.\n", port);
-        System.out.printf("Base directory is: %s\n", baseDir.getAbsolutePath());
 
         Socket remoteSoc;
         try {
@@ -70,7 +65,7 @@ public class MainWebserverRunnable implements Runnable {
      */
     private void startNewClientThread(final Socket remoteSoc) {
         try {
-            WorkerPoolImpl.getInstance().run(new ClientWebserverRunnable(remoteSoc, baseDir));
+            WorkerPoolImpl.getInstance().run(new ClientWebserverRunnable(remoteSoc));
         } catch (IOException ex) {
             Logger.getLogger(MainWebserverRunnable.class.getName()).log(Level.SEVERE, null, ex);
         }

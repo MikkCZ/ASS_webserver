@@ -1,9 +1,9 @@
 package ass.stankmic.server.requests;
 
-import ass.stankmic.server.requests.exceptions.BadHTTPRequestException;
-import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+
+import ass.stankmic.server.requests.exceptions.BadHTTPRequestException;
 
 /**
  * Implementation of this interface is used to handle one specific method from
@@ -23,5 +23,5 @@ public interface RequestHandler {
      * @throws BadHTTPRequestException when the request is determined as not
      * formed properly
      */
-    public void serveTheRequest(final Request request, final File baseDir, final OutputStream outStream, final PrintWriter outWriter) throws BadHTTPRequestException;
+    public void serveTheRequest(final Request request, final OutputStream outStream, final PrintWriter outWriter) throws BadHTTPRequestException;
 }

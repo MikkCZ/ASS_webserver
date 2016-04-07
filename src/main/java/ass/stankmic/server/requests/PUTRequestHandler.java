@@ -1,7 +1,5 @@
 package ass.stankmic.server.requests;
 
-import ass.stankmic.main.CanonicalFile;
-import ass.stankmic.server.requests.exceptions.BadHTTPRequestException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.regex.Pattern;
+
+import ass.stankmic.server.requests.exceptions.BadHTTPRequestException;
 
 /**
  *
@@ -29,7 +29,7 @@ public class PUTRequestHandler implements RequestHandler {
             throw new BadHTTPRequestException();
         }
 
-        final File requestedToSave = CanonicalFile.get(new File(baseDir, path));
+        final File requestedToSave = new File(baseDir, path);
         InputStream is = request.getInputStream();
         if (is == null) {
             HTTPCode.code500.sendResponse(outWriter);
@@ -84,5 +84,12 @@ public class PUTRequestHandler implements RequestHandler {
             throw new BadHTTPRequestException();
         }
     }
+
+	@Override
+	public void serveTheRequest(Request request, OutputStream outStream, PrintWriter outWriter)
+			throws BadHTTPRequestException {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

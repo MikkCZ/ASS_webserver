@@ -4,13 +4,12 @@
  */
 package ass.stankmic.server.requests;
 
-import ass.stankmic.server.requests.exceptions.BadHTTPRequestException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
@@ -20,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
+import ass.stankmic.server.requests.exceptions.BadHTTPRequestException;
 
 /**
  * Test GETRequestHandler class.
@@ -34,33 +33,10 @@ import org.junit.Test;
  */
 public class GETRequestHandlerTest {
 
-    private static final File userDir = new File(System.getProperty("user.dir")),
-            testBaseDir = new File(userDir, "src/test/resources/");
     private static final String indexFileName = "index.html";
     private static final List<String> indexFile = new ArrayList<String>();
     private final String HTTPver = "HTTP/1.1";
     private RequestHandler TESTED;
-
-    /**
-     * Preload index.html file reference content.
-     *
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    @BeforeClass
-    public static void setUpClass() throws FileNotFoundException, IOException {
-        // load index.html file
-        InputStream is = new FileInputStream(new File(testBaseDir, indexFileName));
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        indexFile.clear();
-        String line = br.readLine();
-        while (line != null) {
-            indexFile.add(line);
-            line = br.readLine();
-        }
-        br.close();
-        is.close();
-    }
 
     @Before
     public void setUp() throws FileNotFoundException, IOException {
@@ -183,7 +159,7 @@ public class GETRequestHandlerTest {
     private synchronized List<String> serveTheRequest(Request request) throws BadHTTPRequestException, IOException, InterruptedException {
         PipedOutputStream outStream = new PipedOutputStream();
         PrintWriter outWriter = new PrintWriter(outStream);
-        RequestHandlerRunnable r = new RequestHandlerRunnable(request, testBaseDir, outStream, outWriter);
+        RequestHandlerRunnable r = new RequestHandlerRunnable(request, outStream, outWriter);
         Thread handlerThread = new Thread(r);
         handlerThread.start();
 
@@ -210,21 +186,19 @@ public class GETRequestHandlerTest {
     private class RequestHandlerRunnable implements Runnable {
 
         private final Request request;
-        private final File baseDir;
         private final OutputStream outStream;
         private final PrintWriter outWriter;
         public BadHTTPRequestException ex;
 
-        public RequestHandlerRunnable(Request request, File baseDir, OutputStream outStream, PrintWriter outWriter) {
+        public RequestHandlerRunnable(Request request, OutputStream outStream, PrintWriter outWriter) {
             this.request = request;
-            this.baseDir = baseDir;
             this.outStream = outStream;
             this.outWriter = outWriter;
         }
 
         public void run() {
             try {
-                TESTED.serveTheRequest(request, baseDir, outStream, outWriter);
+                TESTED.serveTheRequest(request, outStream, outWriter);
             } catch (BadHTTPRequestException e) {
                 this.ex = e;
             } finally {
