@@ -18,7 +18,7 @@ public class ObjectPoolImpl<T> implements ObjectPool<T> {
      * Contructor
      */
     protected ObjectPoolImpl() {
-        this.objectQueue = new LinkedList();
+        this.objectQueue = new LinkedList<>();
     }
 
     public synchronized T poll() throws InterruptedException {

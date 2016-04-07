@@ -61,8 +61,8 @@ public class WorkerPoolImplTest {
      * @throws InterruptedException
      */
     private synchronized void testFinishedJobs(int number) throws InterruptedException {
-        final Collection<Runnable> runnables = new ArrayList(number);
-        final Collection<Job> jobs = new ArrayList(number);
+        final Collection<Runnable> runnables = new ArrayList<>(number);
+        final Collection<Job> jobs = new ArrayList<>(number);
         fillRunnables(runnables, jobs, number);
         for (Runnable r : runnables) {
             TESTED.run(r);

@@ -10,7 +10,7 @@ public class WorkerPoolImpl implements WorkerPool {
 
     private final int numOfThreads;
     private final Thread[] threads;
-    private final ObjectPool<Runnable> runnablesPool = new ObjectPoolImpl();
+    private final ObjectPool<Runnable> runnablesPool = new ObjectPoolImpl<>();
 
     /**
      * Returns the instace of WorkerPoolImpl as WorkerPool.

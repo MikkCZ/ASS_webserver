@@ -14,11 +14,11 @@ import org.junit.Test;
  */
 public class ObjectPoolImplTest {
 
-    private ObjectPool TESTED;
+    private ObjectPool<Object> TESTED;
 
     @Before
     public void setUp() {
-        TESTED = new ObjectPoolImpl();
+        TESTED = new ObjectPoolImpl<>();
     }
 
     @After
@@ -36,7 +36,7 @@ public class ObjectPoolImplTest {
 
     @Test
     public synchronized void testPollingThreadIsBlocked() throws InterruptedException {
-        Thread polling = new Thread(new Polling(new HashSet()));
+        Thread polling = new Thread(new Polling(new HashSet<Object>()));
         polling.start();
         this.wait(1000);
         State state = polling.getState();
@@ -46,7 +46,7 @@ public class ObjectPoolImplTest {
     @Test
     public void pollingThreadBeforeOfferTest() throws InterruptedException {
         Object offered = new Object();
-        Collection polled = new HashSet();
+        Collection<Object> polled = new HashSet<>();
         Thread polling = new Thread(new Polling(polled));
         polling.start();
         Thread offering = new Thread(new Offering(offered));
@@ -58,9 +58,9 @@ public class ObjectPoolImplTest {
 
     private class Polling implements Runnable {
 
-        private final Collection polled;
+        private final Collection<Object> polled;
 
-        public Polling(Collection result) {
+        public Polling(Collection<Object> result) {
             this.polled = result;
             this.polled.clear();
         }

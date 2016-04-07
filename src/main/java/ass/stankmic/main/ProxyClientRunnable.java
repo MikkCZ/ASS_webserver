@@ -23,7 +23,8 @@ import org.apache.commons.io.IOUtils;
 public class ProxyClientRunnable implements Runnable {
 
     private static final int BUFFER_SIZE = 1024;
-    private Socket remoteSoc, s1, s2;
+    @SuppressWarnings("unused")
+	private Socket remoteSoc, s1, s2;
     private final int port1, port2;
     private final OutputStream outStream;
     private final PrintWriter outWriter;
@@ -125,7 +126,8 @@ public class ProxyClientRunnable implements Runnable {
         return request;
     }
 
-    private List<byte[]> getResponse(List<String> request, Socket s) throws IOException {
+    @SuppressWarnings("unused")
+	private List<byte[]> getResponse(List<String> request, Socket s) throws IOException {
         PrintWriter pw = new PrintWriter(s.getOutputStream());
         for (String line : request) {
             pw.println(line);

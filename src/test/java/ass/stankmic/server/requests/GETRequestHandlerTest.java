@@ -188,23 +188,23 @@ public class GETRequestHandlerTest {
         handlerThread.start();
 
         PipedInputStream is = new PipedInputStream(outStream);
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-        wait(100);
-        if (r.ex != null) {
-            throw r.ex;
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+	        wait(100);
+	        if (r.ex != null) {
+	            throw r.ex;
+	        }
+	
+	        List<String> response = new ArrayList<String>();
+	        String line = br.readLine();
+	        while (line != null) {
+	            response.add(line);
+	            line = br.readLine();
+	        }
+	        if (r.ex != null) {
+	            throw r.ex;
+	        }
+	        return response;
         }
-
-        List<String> response = new ArrayList<String>();
-        String line = br.readLine();
-        while (line != null) {
-            response.add(line);
-            line = br.readLine();
-        }
-        if (r.ex != null) {
-            throw r.ex;
-        }
-        return response;
     }
 
     private class RequestHandlerRunnable implements Runnable {

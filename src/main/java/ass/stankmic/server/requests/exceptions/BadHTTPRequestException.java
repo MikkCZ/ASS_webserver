@@ -7,7 +7,9 @@ package ass.stankmic.server.requests.exceptions;
  */
 public class BadHTTPRequestException extends Exception {
 
-    /**
+	private static final long serialVersionUID = -2826517612972401931L;
+
+	/**
      * Creates a new instance of <code>BadHTTPRequestException</code> without detail
      * message.
      */

@@ -7,7 +7,9 @@ package ass.stankmic.server.requests.exceptions;
  */
 public class NotImplementedHTTPMethodException extends Exception {
 
-    /**
+	private static final long serialVersionUID = 7292426540037220616L;
+
+	/**
      * Creates a new instance of
      * <code>NotSupportedMethodException</code> without detail message.
      */

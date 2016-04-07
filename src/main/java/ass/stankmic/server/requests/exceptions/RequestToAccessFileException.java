@@ -8,7 +8,9 @@ package ass.stankmic.server.requests.exceptions;
  */
 public class RequestToAccessFileException extends Exception {
 
-    /**
+	private static final long serialVersionUID = 4158905813902686874L;
+
+	/**
      * Creates a new instance of <code>RequestToAccessFileException</code>
      * without detail message.
      */

@@ -14,8 +14,10 @@ public class ProxyMain {
             port1 = 8081,
             port2 = 8082;
 //    private static final File baseDir = Main.DEFAULT_BASE_DIR;
-    private static Runnable r1, r2, mainRunnable;
-    private static Thread t1, t2, mainThread;
+    @SuppressWarnings("unused")
+	private static Runnable r1, r2, mainRunnable;
+    @SuppressWarnings("unused")
+	private static Thread t1, t2, mainThread;
 //    private static final String p1 = "hello";
 //    private static final String p2 = "hello2";
 

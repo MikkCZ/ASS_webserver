@@ -138,7 +138,8 @@ public class ProxyClientRunnable2 implements Runnable {
         return request;
     }
 
-    private List<byte[]> getResponse(List<String> request, Socket s) throws IOException {
+    @SuppressWarnings("unused")
+	private List<byte[]> getResponse(List<String> request, Socket s) throws IOException {
         PrintWriter pw = new PrintWriter(s.getOutputStream());
         for (String line : request) {
             pw.println(line);
