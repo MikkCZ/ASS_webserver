@@ -1,0 +1,13 @@
+Welcome to stankmic webserver. Here is a very short help, how to run it.
+
+The webserver can be launched from command line using these switches:
+    -p|-port    [PORT NUMBER]
+        The PORT NUMBER has to be free port number. If not specified, default (80) will be used.
+    -d|-dir     [BASE DIRECTORY]
+        The BASE DIRECTORY is a directory, where the requested content cannot be placed out of the scope of the BASE DIRECTORY - will be serverd by 403 HTTP code. If not specified, current working directory will be used.
+
+If you want to protect some directory (and its subdirectories) with Basic access authentication, just place there text file named ".access_stankmic". In so named file authenticated users can be listed like this:
+    user01:password01
+    user02:password02
+
+To stop the server, press Ctrl+C.
