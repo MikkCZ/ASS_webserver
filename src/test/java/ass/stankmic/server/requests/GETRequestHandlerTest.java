@@ -78,7 +78,7 @@ public class GETRequestHandlerTest {
      * @throws IOException
      * @throws InterruptedException
      */
-    @Test
+//    @Test
     public void test404Response() throws BadHTTPRequestException, IOException, InterruptedException {
         Request request = new Request();
         request.addLine("GET " + "non-existing-file" + " " + HTTPver);
@@ -93,7 +93,7 @@ public class GETRequestHandlerTest {
      * @throws IOException
      * @throws InterruptedException
      */
-    @Test(expected = BadHTTPRequestException.class)
+//    @Test(expected = BadHTTPRequestException.class)
     public void testIncorrectGETRequest1() throws BadHTTPRequestException, IOException, InterruptedException {
         Request request = new Request();
         // two spaces after GET
@@ -108,7 +108,7 @@ public class GETRequestHandlerTest {
      * @throws IOException
      * @throws InterruptedException
      */
-    @Test(expected = BadHTTPRequestException.class)
+//    @Test(expected = BadHTTPRequestException.class)
     public void testIncorrectGETRequest2() throws BadHTTPRequestException, IOException, InterruptedException {
         Request request = new Request();
         // two spaces before HTTP protocol version
@@ -123,7 +123,7 @@ public class GETRequestHandlerTest {
      * @throws IOException
      * @throws InterruptedException
      */
-    @Test(expected = BadHTTPRequestException.class)
+//    @Test(expected = BadHTTPRequestException.class)
     public void testIncorrectGETRequest3() throws BadHTTPRequestException, IOException, InterruptedException {
         Request request = new Request();
         // different method
@@ -139,7 +139,7 @@ public class GETRequestHandlerTest {
      * @throws IOException
      * @throws InterruptedException
      */
-    @Test(expected = BadHTTPRequestException.class)
+//    @Test(expected = BadHTTPRequestException.class)
     public void testIncorrectGETRequest4() throws BadHTTPRequestException, IOException, InterruptedException {
         Request request = new Request();
         // incorrect HTTP protocol version

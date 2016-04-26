@@ -30,8 +30,8 @@ public class RequestHandlerFactory {
         switch (rm) {
             case GET:
                 return new GETRequestHandler();
-            case PUT:
-                return new PUTRequestHandler();
+            case POST:
+                return new POSTRequestHandler();
             default:
                 throw new NotImplementedHTTPMethodException();
         }
@@ -43,7 +43,7 @@ public class RequestHandlerFactory {
     private enum RequestMethod {
 
         GET,
-        PUT;
+        POST;
 
         /**
          * Returns enum value according to the given method string.
@@ -57,8 +57,8 @@ public class RequestHandlerFactory {
             methodString = methodString.toUpperCase();
             if ("GET".equals(methodString)) {
                 return GET;
-            } else if ("PUT".equals(methodString)) {
-                return PUT;
+            } else if ("POST".equals(methodString)) {
+                return POST;
             } else {
                 throw new NotImplementedHTTPMethodException();
             }

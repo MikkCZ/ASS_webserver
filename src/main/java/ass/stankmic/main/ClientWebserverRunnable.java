@@ -1,8 +1,7 @@
 package ass.stankmic.main;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -71,15 +70,33 @@ public class ClientWebserverRunnable implements Runnable {
      * @throws IOException
      */
     private Request loadRequest() throws IOException {
-        final BufferedReader br = new BufferedReader(new InputStreamReader(remoteSoc.getInputStream()));
+    	final InputStream is = remoteSoc.getInputStream();
         final Request request = new Request();
-        String line = br.readLine();
-        while (line != null && !"".equals(line)) {
-            request.addLine(line);
-            line = br.readLine();
+        
+        final byte[] readBytes = new byte[1];
+        String nowRead;
+        final String[] prevRead = new String[2];
+        
+        final StringBuilder sb = new StringBuilder();
+        while(true) {
+        	is.read(readBytes);
+        	nowRead = new String(readBytes);
+        	if("\n".equals(nowRead)) {
+        		if("\n".equals(prevRead[1])) {
+        			break;
+        		}
+        		final String line = sb.toString();
+        		request.addLine(line.substring(0, line.length()-1));
+        		sb.setLength(0);
+        	} else {
+        		sb.append(nowRead);
+        	}
+        	prevRead[1] = prevRead[0];
+        	prevRead[0] = nowRead;
         }
+        
         request.freeze();
-        request.setInputStream(remoteSoc.getInputStream());
+        request.setInputStream(is);
         return request;
     }
 

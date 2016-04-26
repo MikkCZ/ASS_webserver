@@ -41,7 +41,7 @@ public class RequestHandlerFactoryTest {
     @Test(expected = NotImplementedHTTPMethodException.class)
     public void testNotGETrequest() throws NotImplementedHTTPMethodException {
         Request request = new Request();
-        request.addLine("POST path " + HTTPver);
+        request.addLine("abcd path " + HTTPver);
         request.freeze();
         try {
             RequestHandlerFactory.newInstance(request);

@@ -13,6 +13,7 @@ public enum HTTPCode {
 
     code200("200 OK"),
     code201("201 Created"),
+    code204("204 No Content"),
     code400("400 Bad Request"),
     code401("401 Authorization Required"),
     code403("403 Forbidden"),
