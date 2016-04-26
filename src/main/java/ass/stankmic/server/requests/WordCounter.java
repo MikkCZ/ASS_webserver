@@ -20,7 +20,9 @@ public class WordCounter {
 	}
 	
 	public synchronized int getCount() {
-		return words.size();
+		final int count = words.size();
+		words.clear();
+		return count;
 	}
 	
 	private static final WordCounter instance;
